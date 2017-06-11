@@ -13,10 +13,40 @@ public class TreeSiblingUsingList {
 		n1.right.right = new Node(18);
 		
 		System.out.println(n1);
-		createSiblingLink(n1);
+		//createSiblingLink(n1);
+		createSiblingUsingLinkedList(n1);
 		System.out.println(n1);
 	}
 
+	/**
+	 * 1) Add current level nodes to a linked list
+	 * 2) iterate to next level
+	 * 3) iterate parents and add the sibling and add all childs to the linkedlist until the parents are empty
+	 * 
+	 * @param root
+	 */
+	public static void createSiblingUsingLinkedList(Node root){
+		LinkedList<Node> current = new LinkedList<Node>();
+		if(root != null)
+			current.add(root);
+		
+		while(!current.isEmpty()){
+			LinkedList<Node> parents = current;
+			current = new LinkedList<Node>();
+			//System.out.println(parents);
+			Node leftBranchRight = null;
+			for (Node parent : parents) {
+				if(parent.left != null)
+					current.add(parent.left);
+				if(parent.right != null)
+					current.add(parent.right);
+				
+				if(leftBranchRight != null)
+					leftBranchRight.sibling = parent;
+				leftBranchRight = parent;
+			}
+		}
+	}
 	public static void createSiblingLink(Node root){
 		/**
 		 * 1) Create a queue contains only parents at each level
